@@ -1,4 +1,4 @@
-﻿using Application.Repositories;
+using Application.Repositories;
 using Domain.Others.Utils;
 using Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +42,7 @@ namespace Infrastructure.Factories
             /* Sql Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
             services.AddTransient<IAlumnoRepository, Repositories.Sql.AlumnoRepository>();
+            services.AddTransient<IAutomovilRepository, Repositories.Sql.AutomovilRepository>();
 
             return services;
         }
