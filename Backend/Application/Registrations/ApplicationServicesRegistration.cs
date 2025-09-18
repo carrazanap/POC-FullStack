@@ -1,4 +1,4 @@
-﻿using Application.ApplicationServices;
+using Application.ApplicationServices;
 using Core.Application;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -26,6 +26,7 @@ namespace Application.Registrations
             /* Application Services */
             services.AddScoped<IDummyEntityApplicationService, DummyEntityApplicationService>();
             services.AddScoped<IAlumnoApplicationService, AlumnoApplicationService>();
+            services.AddScoped<IAutomovilApplicationService, AutomovilApplicationService>();
 
             return services;
         }
