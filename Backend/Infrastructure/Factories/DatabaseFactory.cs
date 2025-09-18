@@ -41,6 +41,7 @@ namespace Infrastructure.Factories
 
             /* Sql Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
+            services.AddTransient<IAlumnoRepository, Repositories.Sql.AlumnoRepository>();
 
             return services;
         }

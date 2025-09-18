@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
+
 import { AlumnoService } from '../services/alumno.service';
 import { Alumno } from '../models/alumno.model';
 
@@ -141,7 +142,7 @@ type SortDirection = 'asc' | 'desc';
                <div class="action-buttons">
                  <button 
                    class="btn-edit"
-                   [routerLink]="['/alumno/editar', alumno.id]"
+                   [routerLink]="['/alumno/editar', alumno.legajo]"
                    title="Editar alumno">
                    ✏️
                  </button>

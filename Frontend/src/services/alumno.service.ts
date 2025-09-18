@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
 import { Alumno, AlumnoFormData } from '../models/alumno.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnoService {
+  private apiUrl = 'https://localhost:7204';
   private alumnos: Alumno[] = [
     {
       id: 1,
@@ -57,27 +59,37 @@ export class AlumnoService {
 
   private alumnosSubject = new BehaviorSubject<Alumno[]>(this.alumnos);
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  // getAlumnos(): Observable<Alumno[]> {
+  //   return this.alumnosSubject.asObservable().pipe(delay(300));
+  // }
 
   getAlumnos(): Observable<Alumno[]> {
-    return this.alumnosSubject.asObservable().pipe(delay(300));
+    return this.http.get<any>(this.apiUrl + '/api/alumno')
+    .pipe(map(response => response.data as Alumno[]));
   }
 
   getAlumnoById(id: number): Observable<Alumno | undefined> {
     return of(this.alumnos.find(alumno => alumno.id === id)).pipe(delay(200));
   }
 
+  // createAlumno(alumnoData: AlumnoFormData): Observable<Alumno> {
+  //   const newId = Math.max(...this.alumnos.map(a => a.id)) + 1;
+  //   const newAlumno: Alumno = {
+  //     id: newId,
+  //     ...alumnoData
+  //   };
+    
+  //   this.alumnos.push(newAlumno);
+  //   this.alumnosSubject.next([...this.alumnos]);
+    
+  //   return of(newAlumno).pipe(delay(400));
+  // }
+
   createAlumno(alumnoData: AlumnoFormData): Observable<Alumno> {
-    const newId = Math.max(...this.alumnos.map(a => a.id)) + 1;
-    const newAlumno: Alumno = {
-      id: newId,
-      ...alumnoData
-    };
-    
-    this.alumnos.push(newAlumno);
-    this.alumnosSubject.next([...this.alumnos]);
-    
-    return of(newAlumno).pipe(delay(400));
+    return this.http.post<any>(this.apiUrl + '/api/alumno', alumnoData)
+      .pipe(map(response => response.data as Alumno));
   }
 
   updateAlumno(id: number, alumnoData: AlumnoFormData): Observable<Alumno> {

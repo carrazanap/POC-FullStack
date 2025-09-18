@@ -58,7 +58,7 @@ namespace API
             app.UseCors("AllowSpecificOrigin");
             app.UseAuthentication();
             app.UseAuthorization();
-            UseEventBus(app);
+            //UseEventBus(app);
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
