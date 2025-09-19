@@ -3,6 +3,7 @@ using Application.DataTransferObjects;
 using Application.Repositories;
 using Core.Application;
 using Domain.Entities;
+using System.Data.Entity;
 
 namespace Application.ApplicationServices
 {
