@@ -189,6 +189,28 @@ namespace Controllers
         }
 
         /// <summary>
+        /// Obtener un automóvil por número de chasis
+        /// </summary>
+        [HttpGet("api/v1/[controller]/chasis/{numeroChasis}")]
+        public async Task<IActionResult> GetByChasis(string numeroChasis)
+        {
+            try
+            {
+                var automovil = await _automovilApplicationService.BuscarPorNumeroChasisAsync(numeroChasis);
+                if (automovil == null)
+                {
+                    return NotFound(new { success = false, data = (object?)null, message = "Automóvil no encontrado", errors = new[] { $"No existe un automóvil con el número de chasis {numeroChasis}" } });
+                }
+
+                return Ok(new { success = true, data = automovil, message = "Automóvil encontrado por número de chasis" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, data = (object?)null, message = "Error interno del servidor", errors = new[] { ex.Message } });
+            }
+        }
+
+        /// <summary>
         /// Validar si un número de motor es único
         /// </summary>
         [HttpGet("api/v1/[controller]/validar/motor/{numeroMotor}")]

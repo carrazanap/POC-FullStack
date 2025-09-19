@@ -10,5 +10,6 @@ namespace Application.Repositories
         Task<IEnumerable<Automovil>> BuscarPorMarcaAsync(string marca);
         Task<IEnumerable<Automovil>> BuscarPorAnioFabricacionAsync(int anioInicio, int anioFin);
         Task<IEnumerable<Automovil>> BuscarPorColorAsync(string color);
+        Task<Automovil?> BuscarPorNumeroChasisAsync(string numeroChasis);
     }
 }

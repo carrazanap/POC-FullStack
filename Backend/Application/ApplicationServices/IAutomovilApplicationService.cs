@@ -12,6 +12,7 @@ namespace Application.ApplicationServices
         Task<IEnumerable<AutomovilDto>> BuscarPorMarcaAsync(string marca);
         Task<IEnumerable<AutomovilDto>> BuscarPorAnioFabricacionAsync(int anioInicio, int anioFin);
         Task<IEnumerable<AutomovilDto>> BuscarPorColorAsync(string color);
+        Task<AutomovilDto?> BuscarPorNumeroChasisAsync(string numeroChasis);
         Task<bool> ValidarNumeroMotorUnicoAsync(string numeroMotor, int? excluirId = null);
         Task<bool> ValidarNumeroChasisUnicoAsync(string numeroChasis, int? excluirId = null);
     }

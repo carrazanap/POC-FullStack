@@ -96,6 +96,12 @@ namespace Application.ApplicationServices
             return automoviles.Select(a => CustomMapper.Instance.Map<AutomovilDto>(a));
         }
 
+        public async Task<AutomovilDto?> BuscarPorNumeroChasisAsync(string numeroChasis)
+        {
+            var automovil = await _automovilRepository.BuscarPorNumeroChasisAsync(numeroChasis);
+            return automovil != null ? CustomMapper.Instance.Map<AutomovilDto>(automovil) : null;
+        }
+
         public async Task<bool> ValidarNumeroMotorUnicoAsync(string numeroMotor, int? excluirId = null)
         {
             return !await _automovilRepository.ExisteNumeroMotorAsync(numeroMotor, excluirId);
@@ -107,4 +113,3 @@ namespace Application.ApplicationServices
         }
     }
 }
-

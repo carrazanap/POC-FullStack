@@ -43,5 +43,11 @@ namespace Infrastructure.Repositories.Sql
                 .Where(a => a.Color.Contains(color))
                 .ToListAsync();
         }
+
+        public async Task<Automovil?> BuscarPorNumeroChasisAsync(string numeroChasis)
+        {
+            return await Context.Set<Automovil>()
+                .FirstOrDefaultAsync(a => a.NumeroChasis == numeroChasis);
+        }
     }
 }
