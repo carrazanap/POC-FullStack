@@ -16,7 +16,7 @@ del proyecto `Template-API`:
 
 3. Crear la primera migracion de la base de datos, ejecutando el siguiente comando:
 
-dotnet ef migrations add Initial --project .\Infrastructure.csproj --startup-project ..\Template-API\Template-API.csproj
+dotnet ef migrations add Initial --project .\Infrastructure\Infrastructure.csproj --startup-project .\Template-API\Template-API.csproj
 
 4. Ejecutar el proyecto, esto actualizará la base de datos con la migración creada, y estará en
 condiciones de usarse.

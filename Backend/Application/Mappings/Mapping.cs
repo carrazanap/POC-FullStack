@@ -17,6 +17,14 @@ namespace Application.Mappings
             CreateMap<DummyEntity, DummyEntityDto>().ReverseMap();
 
             CreateMap<Alumno, AlumnoCreado>().ReverseMap();
+
+            // Mapeos para Automóvil
+            CreateMap<Automovil, AutomovilDto>().ReverseMap();
+            CreateMap<CrearAutomovilDto, Automovil>()
+                .ConstructUsing(dto => new Automovil(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion, dto.NumeroMotor, dto.NumeroChasis));
+            CreateMap<ActualizarAutomovilDto, Automovil>()
+                .ConstructUsing(dto => new Automovil(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion, dto.NumeroMotor, dto.NumeroChasis));
         }
     }
 }
+

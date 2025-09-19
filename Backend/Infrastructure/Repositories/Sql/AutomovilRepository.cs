@@ -13,33 +13,33 @@ namespace Infrastructure.Repositories.Sql
 
         public async Task<bool> ExisteNumeroMotorAsync(string numeroMotor, int? excluirId = null)
         {
-            return await _context.Set<Automovil>()
+            return await Context.Set<Automovil>()
                 .AnyAsync(a => a.NumeroMotor == numeroMotor && (excluirId == null || a.Id != excluirId));
         }
 
         public async Task<bool> ExisteNumeroChasisAsync(string numeroChasis, int? excluirId = null)
         {
-            return await _context.Set<Automovil>()
+            return await Context.Set<Automovil>()
                 .AnyAsync(a => a.NumeroChasis == numeroChasis && (excluirId == null || a.Id != excluirId));
         }
 
         public async Task<IEnumerable<Automovil>> BuscarPorMarcaAsync(string marca)
         {
-            return await _context.Set<Automovil>()
+            return await Context.Set<Automovil>()
                 .Where(a => a.Marca.Contains(marca))
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Automovil>> BuscarPorAnioFabricacionAsync(int anioInicio, int anioFin)
         {
-            return await _context.Set<Automovil>()
+            return await Context.Set<Automovil>()
                 .Where(a => a.Fabricacion >= anioInicio && a.Fabricacion <= anioFin)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Automovil>> BuscarPorColorAsync(string color)
         {
-            return await _context.Set<Automovil>()
+            return await Context.Set<Automovil>()
                 .Where(a => a.Color.Contains(color))
                 .ToListAsync();
         }

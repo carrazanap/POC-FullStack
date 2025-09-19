@@ -11,9 +11,9 @@ namespace Controllers
     {
         private readonly ICommandQueryBus _commandQueryBus;
         private readonly IAutomovilApplicationService _automovilApplicationService;
-        
+
         public AutomovilController(
-            ICommandQueryBus commandQueryBus, 
+            ICommandQueryBus commandQueryBus,
             IAutomovilApplicationService automovilApplicationService)
         {
             _commandQueryBus = commandQueryBus ?? throw new ArgumentNullException(nameof(commandQueryBus));
@@ -223,3 +223,4 @@ namespace Controllers
         }
     }
 }
+

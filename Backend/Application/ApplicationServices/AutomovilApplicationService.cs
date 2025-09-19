@@ -1,7 +1,7 @@
 using Application.ApplicationServices;
 using Application.DataTransferObjects;
 using Application.Repositories;
-using Core.Application.Mapping;
+using Core.Application;
 using Domain.Entities;
 
 namespace Application.ApplicationServices
@@ -17,13 +17,13 @@ namespace Application.ApplicationServices
 
         public async Task<IEnumerable<AutomovilDto>> ObtenerTodosAsync()
         {
-            var automoviles = await _automovilRepository.GetAllAsync();
+            var automoviles = await _automovilRepository.FindAllAsync();
             return automoviles.Select(a => CustomMapper.Instance.Map<AutomovilDto>(a));
         }
 
         public async Task<AutomovilDto?> ObtenerPorIdAsync(int id)
         {
-            var automovil = await _automovilRepository.GetByIdAsync(id);
+            var automovil = await _automovilRepository.FindOneAsync(id);
             return automovil != null ? CustomMapper.Instance.Map<AutomovilDto>(automovil) : null;
         }
 
@@ -38,14 +38,14 @@ namespace Application.ApplicationServices
                 throw new InvalidOperationException($"Ya existe un automóvil con el número de chasis {dto.NumeroChasis}");
 
             var automovil = new Automovil(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion, dto.NumeroMotor, dto.NumeroChasis);
-            var automovilCreado = await _automovilRepository.AddAsync(automovil);
-            
-            return automovilCreado.Id;
+            var id = await _automovilRepository.AddAsync(automovil);
+
+            return (int)id;
         }
 
         public async Task<bool> ActualizarAsync(int id, ActualizarAutomovilDto dto)
         {
-            var automovil = await _automovilRepository.GetByIdAsync(id);
+            var automovil = await _automovilRepository.FindOneAsync(id);
             if (automovil == null)
                 return false;
 
@@ -57,27 +57,24 @@ namespace Application.ApplicationServices
             if (await _automovilRepository.ExisteNumeroChasisAsync(dto.NumeroChasis, id))
                 throw new InvalidOperationException($"Ya existe otro automóvil con el número de chasis {dto.NumeroChasis}");
 
-            // Actualizar la información básica
-            automovil.ActualizarInformacion(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion);
-            
-            // Actualizar números si han cambiado
-            if (automovil.NumeroMotor != dto.NumeroMotor)
-                automovil.ActualizarNumeroMotor(dto.NumeroMotor);
-                
-            if (automovil.NumeroChasis != dto.NumeroChasis)
-                automovil.ActualizarNumeroChasis(dto.NumeroChasis);
+            // Crear nuevo automóvil con los datos actualizados
+            var automovilActualizado = new Automovil(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion, dto.NumeroMotor, dto.NumeroChasis);
 
-            await _automovilRepository.UpdateAsync(automovil);
+            // Preservar el ID original
+            var idProperty = typeof(Automovil).BaseType?.GetProperty("Id");
+            idProperty?.SetValue(automovilActualizado, id);
+
+            _automovilRepository.Update(id, automovilActualizado);
             return true;
         }
 
         public async Task<bool> EliminarAsync(int id)
         {
-            var automovil = await _automovilRepository.GetByIdAsync(id);
+            var automovil = await _automovilRepository.FindOneAsync(id);
             if (automovil == null)
                 return false;
 
-            await _automovilRepository.DeleteAsync(id);
+            _automovilRepository.Remove(id);
             return true;
         }
 
@@ -110,3 +107,4 @@ namespace Application.ApplicationServices
         }
     }
 }
+

@@ -1,6 +1,6 @@
 using Application.ApplicationServices;
 using Application.DataTransferObjects;
-using Core.Application.ComandQueryBus.Commands;
+using Core.Application;
 
 namespace Application.UseCases.Automovil.Commands.CrearAutomovil
 {

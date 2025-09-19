@@ -37,7 +37,8 @@ namespace Infrastructure.Factories
 
             //Habilitar para trabajar con Migrations
             var context = services.BuildServiceProvider().GetRequiredService<Repositories.Sql.StoreDbContext>();
-            context.Database.Migrate();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
 
             /* Sql Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();

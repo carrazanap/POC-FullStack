@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Application.Repositories
 {
-    public interface IAutomovilRepository : IRepository<Automovil, int>
+    public interface IAutomovilRepository : IRepository<Automovil>
     {
         Task<bool> ExisteNumeroMotorAsync(string numeroMotor, int? excluirId = null);
         Task<bool> ExisteNumeroChasisAsync(string numeroChasis, int? excluirId = null);
