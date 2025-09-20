@@ -37,6 +37,8 @@ namespace Infrastructure.Factories
 
             //Habilitar para trabajar con Migrations
             var context = services.BuildServiceProvider().GetRequiredService<Repositories.Sql.StoreDbContext>();
+
+            // Para comenzar cuando arrancas con la primer migracion
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 

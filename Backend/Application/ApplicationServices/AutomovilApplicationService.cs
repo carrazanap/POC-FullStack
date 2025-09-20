@@ -58,14 +58,12 @@ namespace Application.ApplicationServices
             if (await _automovilRepository.ExisteNumeroChasisAsync(dto.NumeroChasis, id))
                 throw new InvalidOperationException($"Ya existe otro automóvil con el número de chasis {dto.NumeroChasis}");
 
-            // Crear nuevo automóvil con los datos actualizados
-            var automovilActualizado = new Automovil(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion, dto.NumeroMotor, dto.NumeroChasis);
+            // Actualiza las propiedades directamente en la instancia recuperada
+            automovil.ActualizarInformacion(dto.Marca, dto.Modelo, dto.Color, dto.Fabricacion);
+            automovil.ActualizarNumeroMotor(dto.NumeroMotor);
+            automovil.ActualizarNumeroChasis(dto.NumeroChasis);
 
-            // Preservar el ID original
-            var idProperty = typeof(Automovil).BaseType?.GetProperty("Id");
-            idProperty?.SetValue(automovilActualizado, id);
-
-            _automovilRepository.Update(id, automovilActualizado);
+            _automovilRepository.Update(id, automovil);
             return true;
         }
 
