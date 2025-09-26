@@ -35,12 +35,16 @@ namespace Infrastructure.Factories
                 options.UseSqlServer(configuration.GetConnectionString("SqlConnection"));
             }, ServiceLifetime.Scoped);
 
-            //Habilitar para trabajar con Migrations
+            // Verificar si existe la DB
             var context = services.BuildServiceProvider().GetRequiredService<Repositories.Sql.StoreDbContext>();
-
-            // Para comenzar cuando arrancas con la primer migracion
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            if (context.Database.CanConnect())
+            {
+                context.Database.Migrate(); // DB existe → aplicar migraciones
+            }
+            else
+            {
+                context.Database.EnsureCreated(); // DB no existe → crear
+            }
 
             /* Sql Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
