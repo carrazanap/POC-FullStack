@@ -35,15 +35,21 @@ namespace Infrastructure.Factories
                 options.UseSqlServer(configuration.GetConnectionString("SqlConnection"));
             }, ServiceLifetime.Scoped);
 
-            // Verificar si existe la DB
+            // Verificar si puede usar las tablas
             var context = services.BuildServiceProvider().GetRequiredService<Repositories.Sql.StoreDbContext>();
-            if (context.Database.CanConnect())
+            try
             {
-                context.Database.Migrate(); // DB existe → aplicar migraciones
+                // Intentar acceder a la tabla principal
+                context.Automovil.Take(1).ToList();
+                // Si llega aquí, las tablas existen y funcionan → preservar datos
+                Console.WriteLine("Base de datos funcional encontrada, preservando datos");
             }
-            else
+            catch (Exception)
             {
-                context.Database.EnsureCreated(); // DB no existe → crear
+                // Si falla el acceso a las tablas → recrear
+                Console.WriteLine("Recreando base de datos...");
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
             }
 
             /* Sql Repositories */
